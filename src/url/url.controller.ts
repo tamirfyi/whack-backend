@@ -8,8 +8,8 @@ export class UrlController {
   constructor(private readonly urlService: UrlService) {}
 
   @Post()
-  @ApiBody({type: CreateUrlDto})
-  async create (@Body() createUrlDto: CreateUrlDto) {
+  @ApiBody({ type: CreateUrlDto })
+  async create(@Body() createUrlDto: CreateUrlDto) {
     const createdUrl = await this.urlService.create(createUrlDto);
     return createdUrl;
   }
