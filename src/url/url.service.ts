@@ -6,6 +6,11 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class UrlService {
   constructor(private prisma: PrismaService) {}
+
+  async findAll(){
+    const allUrls = await this.prisma.url.findMany();
+    return allUrls;
+  }
   
   async create(dto: CreateUrlDto) {
     const shortUrl = await this.generateUniqueShortUrl();
@@ -20,7 +25,7 @@ export class UrlService {
     return createdUrl;
   }
 
-  async findOriginalUrl(shortUrl: string) {
+  async redirect(shortUrl: string) {
     const url = await this.prisma.url.findFirst({
       where: {
         short: shortUrl
@@ -34,7 +39,6 @@ export class UrlService {
     return url.original;
   }
 
-  // Generates a unique short url
   async generateUniqueShortUrl(): Promise<string> {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const base = characters.length;
